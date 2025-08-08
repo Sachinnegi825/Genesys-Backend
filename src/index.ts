@@ -15,8 +15,13 @@ dotenv.config({ path: envPath });
 const app = express();
 const port = 3001; // Port for the backend API
 
-app.use(cors()); // Allow requests from your React frontend
+app.use(cors());
 app.use(express.json());
+
+// ✅ Health Check Route
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'Server is healthy' });
+});
 
 // Basic route
 app.get('/', (req, res) => {
@@ -28,9 +33,6 @@ app.use('/api/chat', chatRouter);
 app.use('/api/analysis', analysisRouter);
 app.use('/api/literature', literatureRouter);
 app.use('/api/expression', expressionRouter);
-
-
-
 
 app.listen(port, () => {
   console.log(`Backend server listening on http://localhost:${port}`);
